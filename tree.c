@@ -2,7 +2,7 @@
  * tree.c
  *
  *  Created on: 07-Aug-2017
- *      Author: d
+ *      Author: devarsh
  */
 #include<stdio.h>
 #include<malloc.h>
@@ -734,6 +734,10 @@ tree * buildBSTutils(queue *start,int end)
 
 	return root;
 }
+
+/* this function is yet to be finalized and to be debugged further
+ *
+ * */
 void sortToBalancedBST(tree *start)
 {
 	queue *temp = NULL;
