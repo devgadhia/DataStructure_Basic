@@ -17,7 +17,6 @@ typedef struct tnode{
 	struct tnode *right;
 }tree;
 tree *home = NULL;
-
 typedef struct stack_node{
 	tree *data;
 	struct stack_node *next;
@@ -55,7 +54,7 @@ void sortToBalancedBST(tree *start);
 int ht = 0;
 int tree_main(void)
 {
-	unsigned int choice = 0;
+	unsigned int choice = 0,ch2 = 0;
 	while(1)
 	{
 		printf("\n");
@@ -131,7 +130,7 @@ int tree_main(void)
 			}
 			break;
 		case 15:
-			sortToBalancedBST(home);
+				sortToBalancedBST(home);
 			break;
 		case 0:
 			return 0;
@@ -402,7 +401,6 @@ void inorder_traverse(tree *start)
 					temp = pop_stack();
 					if(temp)	FLAG = TRUE;
 					else		FLAG = FALSE;
-					//printf("%d ==>\n",temp->data);
 				}
 				else
 				{
@@ -633,6 +631,27 @@ void push_queue(tree *node)
 		temp->next = travel;
 	}
 }
+void push_queue_for_bst(tree *node)
+{
+	queue *travel = NULL, *temp = NULL;
+
+	travel = (queue *)malloc(sizeof(queue));
+	travel->data = node;
+	node->left = NULL;
+	node->right = NULL;
+	travel->next = NULL;
+
+	if(q_base == NULL)
+	{
+		q_base = travel;
+	}
+	else
+	{
+		temp = q_base;
+		while(temp->next != NULL)	temp = temp->next;
+		temp->next = travel;
+	}
+}
 
 tree * unqueue(void)
 {
@@ -702,8 +721,6 @@ bool isBalance(tree *start)
 	{
 		return 1;
 	}
-
-	// if the tree is not balanced then return 0
 	return 0;
 }
 
@@ -711,37 +728,33 @@ void treeToarray(tree *start)
 {
 	tree *temp = start;
 	if(temp == NULL)	return ;
-	if(temp->left)	treeToarray(temp->left);
+	treeToarray(temp->left);
 	push_queue(temp);
-	if(temp->right) treeToarray(temp->right);
+	treeToarray(temp->right);
 }
 
-tree * buildBSTutils(queue *start,int end)
+tree * buildBSTutils(queue *start,int begin,int end)
 {
-	queue *temp = NULL;
-	temp = start;
-	if(end <= 0)	return NULL;
+	int i=0;
+	queue *temp = start;
+	if(begin > end)	return NULL;
 
-	tree *left = buildBSTutils(temp, end/2);
+	int mid = begin + (end- begin)/2;
+	for(i=0;i<mid;i++)
+		temp = temp->next;
+	tree *bst = temp->data;
+	printf("%d==>\n",temp->data->data);
 
-	tree *root = (tree *)malloc(sizeof(tree));
-	root = temp->data;
-	root->left = left;
+	bst->left = buildBSTutils(start,begin,mid-1);
+	bst->right = buildBSTutils(start,mid+1,end);
 
-	temp = temp->next;
-
-	root->right = buildBSTutils(temp,end-end/2-1);
-
-	return root;
+	return bst;
 }
 
-/* this function is yet to be finalized and to be debugged further
- *
- * */
+
 void sortToBalancedBST(tree *start)
 {
 	queue *temp = NULL;
-	tree *root = NULL;
 	int counter = 0;
 	treeToarray(start);
 
@@ -752,7 +765,6 @@ void sortToBalancedBST(tree *start)
 		temp = temp->next;
 		counter++;
 	}
-	root = buildBSTutils(q_base,counter);
-
-	printf("%d is the data balanced one !!\n",root->data);
+	home = buildBSTutils(q_base,0,counter-1);
+	printf("Tree is now balanced and hence the traversal data might be different !!\n");
 }
