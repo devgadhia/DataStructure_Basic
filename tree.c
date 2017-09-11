@@ -766,5 +766,12 @@ void sortToBalancedBST(tree *start)
 		counter++;
 	}
 	home = buildBSTutils(q_base,0,counter-1);
-	printf("Tree is now balanced and hence the traversal data might be different !!\n");
+	temp = q_base;
+	while(temp != NULL)
+	{
+		temp = temp->next;
+		free(q_base);
+		q_base = temp;
+	}
+	printf("Tree is now balanced but BFS traversal would be different !!\n");
 }
