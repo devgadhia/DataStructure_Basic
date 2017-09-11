@@ -10,7 +10,8 @@ int main()
 {
 	unsigned int choice;
 	int ret;
-	printf("1. Tree  and traversal !!\n");
+	printf("1. Normal Binary search Tree  and traversal !!\n");
+	printf("2. Balanced binary search tree !! \n");
 
 	scanf("%d",&choice);
 
@@ -18,6 +19,9 @@ int main()
 	{
 	case 1:
 		ret = tree_main();
+		break;
+	case 2:
+		ret = AVL_tree_main();
 		break;
 	default:
 		printf("Invalid input \n");

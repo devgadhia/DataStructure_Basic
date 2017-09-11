@@ -52,6 +52,7 @@ void push_queue(tree *);
 tree * unqueue(void);
 void sortToBalancedBST(tree *start);
 int ht = 0;
+
 int tree_main(void)
 {
 	unsigned int choice = 0,ch2 = 0;
@@ -743,7 +744,6 @@ tree * buildBSTutils(queue *start,int begin,int end)
 	for(i=0;i<mid;i++)
 		temp = temp->next;
 	tree *bst = temp->data;
-	printf("%d==>\n",temp->data->data);
 
 	bst->left = buildBSTutils(start,begin,mid-1);
 	bst->right = buildBSTutils(start,mid+1,end);
