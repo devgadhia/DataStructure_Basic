@@ -5,11 +5,11 @@
  *      Author: d
  */
 #include<stdio.h>
-
+int tree_main(void);
+int AVL_tree_main(void);
 int main()
 {
 	unsigned int choice;
-	int ret;
 	printf("1. Normal Binary search Tree  and traversal !!\n");
 	printf("2. Balanced binary search tree !! \n");
 
@@ -18,10 +18,10 @@ int main()
 	switch(choice)
 	{
 	case 1:
-		ret = tree_main();
+		tree_main();
 		break;
 	case 2:
-		ret = AVL_tree_main();
+		AVL_tree_main();
 		break;
 	default:
 		printf("Invalid input \n");

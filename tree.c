@@ -11,6 +11,8 @@
 #include<stdlib.h>
 #define TRUE 1
 #define FALSE 0
+
+
 typedef struct tnode{
 	int data;
 	struct tnode *left;
@@ -55,7 +57,7 @@ int ht = 0;
 
 int tree_main(void)
 {
-	unsigned int choice = 0,ch2 = 0;
+	unsigned int choice = 0;
 	while(1)
 	{
 		printf("\n");
@@ -74,6 +76,7 @@ int tree_main(void)
 		printf("13. Find the height of the tree \n");
 		printf("14. Check if tree is balanced \n");
 		printf("15. Make a balanced binary tree \n");
+		printf("16. Create an AVL tree !!\n");
 		printf("0. Exit\n");
 
 		scanf("%d",&choice);
@@ -90,10 +93,14 @@ int tree_main(void)
 			find_node();
 			break;
 		case 4:
-			inorder_traverse(home);
+			{
+				inorder_traverse(home);
+			}
 			break;
 		case 5:
-			preorder_traverse(home);
+			{
+				preorder_traverse(home);
+			}
 			break;
 		case 6:
 			postorder_traverse(home);
@@ -619,27 +626,6 @@ void push_queue(tree *node)
 
 	travel = (queue *)malloc(sizeof(queue));
 	travel->data = node;
-	travel->next = NULL;
-
-	if(q_base == NULL)
-	{
-		q_base = travel;
-	}
-	else
-	{
-		temp = q_base;
-		while(temp->next != NULL)	temp = temp->next;
-		temp->next = travel;
-	}
-}
-void push_queue_for_bst(tree *node)
-{
-	queue *travel = NULL, *temp = NULL;
-
-	travel = (queue *)malloc(sizeof(queue));
-	travel->data = node;
-	node->left = NULL;
-	node->right = NULL;
 	travel->next = NULL;
 
 	if(q_base == NULL)
