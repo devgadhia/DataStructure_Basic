@@ -19,6 +19,12 @@ typedef struct tnode{
 	int height;
 }avl_tree;
 
+typedef struct qnode{
+	avl_tree *data;
+	struct qnode *next;
+}avlqueue;
+
+avlqueue *qbase = NULL, *q_current_pos = NULL;
 avl_tree *avl_home = NULL;
 avl_tree * insert(avl_tree *start,int data);
 
@@ -26,10 +32,12 @@ avl_tree * insert(avl_tree *start,int data);
 void inorder_recursive_avl_traverse(avl_tree *start);
 void preorder_recursive_avl_traverse(avl_tree *start);
 void postorder_recursive_avl_traverse(avl_tree *start);
+void AVL_BFS_traverse(avl_tree *start);
 int AVL_tree_main(void)
 {
 	unsigned int choice = 0;
 	int data = 0;
+	q_current_pos = qbase;
 	while(1)
 	{
 		printf("\n");
@@ -44,13 +52,12 @@ int AVL_tree_main(void)
 		printf("7. inOrder Recursive traversal 		AVL tree\n");
 		printf("8. Preorder Recursive traversal 	AVL tree\n");
 		printf("9. Postorder Recursivetraversal 	AVL tree\n");
-#if 0
-		printf("10. Find Successor 					AVL tree\n");
-		printf("11. Find Predecessor 				AVL tree\n");
+//		printf("10. Find Successor 					AVL tree\n");
+//		printf("11. Find Predecessor 				AVL tree\n");
 		printf("12. Breadth first traversal 		AVL tree\n");
-		printf("13. Find the height of the tree  	AVL tree\n");
-		printf("14. Check if tree is balanced 		AVL tree\n");
-#endif
+		//printf("13. Find the height of the tree  	AVL tree\n");
+		//printf("14. Check if tree is balanced 		AVL tree\n");
+
 		printf("0. Exit\t\tAVL tree\n");
 
 		scanf("%d",&choice);
@@ -89,18 +96,17 @@ int AVL_tree_main(void)
 		case 9:
 			postorder_recursive_avl_traverse(avl_home);
 			break;
-#if 0
-		case 10:
-			break;
-		case 11:
-			break;
+//		case 10:
+//			break;
+//		case 11:
+//			break;
 		case 12:
+			AVL_BFS_traverse(avl_home);
 			break;
-		case 13:
-			break;
-		case 14:
-			break;
-#endif
+//		case 13:
+//			break;
+//		case 14:
+//			break;
 		case 0:
 			return 0;
 
@@ -241,4 +247,51 @@ void postorder_recursive_avl_traverse(avl_tree *start)
 	printf("%d ==> ",start->data);
 }
 
+void push_avl_queue(avl_tree *node)
+{
+	avlqueue *temp;
+	temp = (avlqueue *)malloc(sizeof(avlqueue));
+	temp->data = node;
+	temp->next = NULL;
+	if(qbase == NULL)
+	{
+		qbase = (avlqueue *)malloc(sizeof(avlqueue));
+		qbase = temp;
+		q_current_pos = qbase;
+	}
+	else
+	{
+		q_current_pos->next = temp;
+		q_current_pos = q_current_pos->next;
+	}
+}
 
+avl_tree * unqueue_avl(void)
+{
+	avl_tree *temp = NULL;
+
+	if(qbase == NULL)
+	{
+		printf("Queue is empty !\n");
+	}
+	else
+	{
+		temp = qbase->data;
+		qbase = qbase->next;
+	}
+return temp;
+}
+
+
+void AVL_BFS_traverse(avl_tree *start)
+{
+	avl_tree *temp = start;
+
+	while(temp)
+	{
+		printf("%d ==>\n",temp->data);
+		if(temp->left) 		push_avl_queue(temp->left);
+		if(temp->right)		push_avl_queue(temp->right);
+		temp = unqueue_avl();
+	}
+}

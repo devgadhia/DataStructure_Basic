@@ -337,6 +337,7 @@ void delete_node(void)
 			}
 			else
 			{
+				if(ret->left != NULL)	temp->left = ret->left;
 				free(travel->right);
 				travel->right = temp;
 			}
